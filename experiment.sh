@@ -40,9 +40,9 @@ if [[ $1 == "--run-inception-v4" ]]; then
   python ~/BrainNet/BrainNet/train_inception_v4.py --data-dir=$HOME/data
 fi
 
-if [[ $1 == "--run-inception-resnet-v4" ]]; then
+if [[ $1 == "--run-inception-resnet-v2" ]]; then
   source ~/BrainNet/venv/bin/activate
-  python ~/BrainNet/BrainNet/train_inception_resnet_v4.py --data-dir=$HOME/BrainNet/data
+  python ~/BrainNet/BrainNet/train_inception_resnet_v2.py --data-dir=$HOME/BrainNet/data
 fi
 
 if [ -z $1 ]; then
