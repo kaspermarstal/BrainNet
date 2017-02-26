@@ -20,4 +20,4 @@ $ ./google-cloud.sh --create-cpu-instance
 $ ./google-cloud.sh --create-gpu-instance
 ```
 
-SSH into the instance once it is up and running and invoke `experiment.sh` from there.
+SSH into the instance once it is up and running, clone, and invoke `experiment.sh` from there.
