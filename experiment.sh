@@ -49,5 +49,6 @@ if [ -z $1 ]; then
    ./experiment.sh --download-data
    ./experiment.sh --extract-data
    ./experiment.sh --install-venv
+   ./experiment.sh --install-tensorflow-gpu || true
    ./experiment.sh --run-inception-v4
 fi
