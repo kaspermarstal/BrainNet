@@ -19,7 +19,7 @@ class Timer(object):
             print '[%s]' % self.name,
         print 'Elapsed: %s.' % (time.time() - self.tstart)
 
-def generator_2d(images, labels, input_shape, patch_size=32, batch_size=32, nb_classes=1001):
+def generator_2d(images, labels, input_shape, nb_classes=1001, patch_size=32, batch_size=32):
     while True:
         X = np.empty((batch_size, input_shape[0], input_shape[1]), dtype=float)
         y = np.empty(batch_size, dtype=int)

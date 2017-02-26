@@ -45,7 +45,7 @@ def main(argv):
 
   model = create_inception_v4((INPUT_SHAPE[0], INPUT_SHAPE[1], 1), nb_classes=NB_CLASSES, load_weights=False)
   model.compile(optimizer=RMSprop(lr=0.045, rho=0.94, epsilon=1., decay=0.9), loss='categorical_crossentropy', metrics=['acc'])
-  model.fit_generator(generator_2d(images_train, labels_train, NB_CLASSES, INPUT_SHAPE, PATCH_SIZE, BATCH_SIZE), samples_per_epoch=SAMPLES_PER_EPOCH, nb_epoch=10, callbacks=[tensor_board, early_stopping], verbose=1)
+  model.fit_generator(generator_2d(images_train, labels_train, INPUT_SHAPE, NB_CLASSES, PATCH_SIZE, BATCH_SIZE), samples_per_epoch=SAMPLES_PER_EPOCH, nb_epoch=10, callbacks=[tensor_board, early_stopping], verbose=1)
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
