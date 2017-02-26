@@ -16,7 +16,7 @@ if [[ $1 == "--download-data" ]]; then
     mkdir ~/downloads
   fi
   cd ~/downloads
-  curl -OL ftp://ftp.nrg.wustl.edu/data/oasis_cross-sectional_disc1.tar.gz
+  curl -OL ftp://ftp.nrg.wustl.edu/data/oasis_cross-sectional_disc{1,2,3,4,5,6,7,8,9,10,11,12}.tar.gz
 fi
 
 if [[ $1 == "--extract-data" ]]; then
