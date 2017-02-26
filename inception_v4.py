@@ -173,7 +173,7 @@ def reduction_B(input):
     return m
 
 
-def create_inception_v4(nb_classes=1001, load_weights=True):
+def create_inception_v4(shape, nb_classes=1001, load_weights=True):
     '''
     Creates a inception v4 network
 
@@ -181,10 +181,7 @@ def create_inception_v4(nb_classes=1001, load_weights=True):
     :return: Keras Model with 1 input and 1 output
     '''
 
-    if K.image_dim_ordering() == 'th':
-        init = Input((3, 299, 299))
-    else:
-        init = Input((299, 299, 3))
+    init = Input(shape)
 
     # Input Shape is 299 x 299 x 3 (tf) or 3 x 299 x 299 (th)
     x = inception_stem(init)
