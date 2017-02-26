@@ -1,10 +1,5 @@
 #!/bin/bash
 
-if [[ $1 == "--run" ]]; then
-  source ~/venv/bin/activate
-  python ~/brainnet/train_2d.py
-fi
-
 if [[ $1 == "--clone-source" ]]; then
   git clone https://github.com/kaspermarstal/brainnet ~/brainnet
   exit
@@ -37,15 +32,15 @@ if [[ $1 == "--install-venv" ]]; then
   sudo apt-get install -y virtualenv gcc python-dev
   virtualenv ~/venv
   source ~/venv/bin/activate
-  pip install keras SimpleITK numpy sklearn scikit-image
-fi
-
-if [[ $1 == "--install-tensorflow-cpu" ]]; then
-  source ~/venv/bin/activate
-  pip install tensorflow
+  pip install keras SimpleITK numpy sklearn scikit-image tensorflow
 fi
 
 if [[ $1 == "--install-tensorflow-gpu" ]]; then
   source ~/venv/bin/activate
-  pip install tensorflow-gpu
+  pip install --upgrade tensorflow-gpu
+fi
+
+if [[ $1 == "--run" ]]; then
+  source ~/venv/bin/activate
+  python ~/brainnet/train_2d.py
 fi
