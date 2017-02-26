@@ -33,6 +33,12 @@ Some additional details:
     This is to correctly match the nb of filters in 'ir_conv' of the next A blocks.
 """
 
+# The input shape is tied to the network
+if K.image_dim_ordering() == 'th':
+    input_shape = (1, 299, 299)
+else:
+    input_shape = (299, 299, 1)
+
 def inception_resnet_stem(input):
     if K.image_dim_ordering() == "th":
         channel_axis = 1
@@ -189,7 +195,7 @@ def reduction_resnet_v2_B(input):
     m = Activation('relu')(m)
     return m
 
-def create_inception_resnet_v2(shape, nb_classes=1001, scale=True):
+def create_inception_resnet_v2(nb_classes=1001, scale=True):
     '''
     Creates a inception resnet v2 network
 
@@ -198,9 +204,9 @@ def create_inception_resnet_v2(shape, nb_classes=1001, scale=True):
     :return: Keras Model with 1 input (299x299x3) input shape and 2 outputs (final_output, auxiliary_output)
     '''
 
-    init = Input(shape)
+    # Input Shape is 299 x 299 x 1 (tf) or 1 x 299 x 299 (th)
+    init = Input(INPUT_SHAPE)
 
-    # Input Shape is 299 x 299 x 3 (tf) or 3 x 299 x 299 (th)
     x = inception_resnet_stem(init)
 
     # 10 x Inception Resnet A

@@ -10,11 +10,11 @@ from keras.utils.data_utils import get_file
 Implementation of Inception Network v4 [Inception Network v4 Paper](http://arxiv.org/pdf/1602.07261v1.pdf) in Keras.
 """
 
-TH_BACKEND_TH_DIM_ORDERING = "https://github.com/titu1994/Inception-v4/releases/download/v1.2/inception_v4_weights_th_dim_ordering_th_kernels.h5"
-TH_BACKEND_TF_DIM_ORDERING = "https://github.com/titu1994/Inception-v4/releases/download/v1.2/inception_v4_weights_tf_dim_ordering_th_kernels.h5"
-TF_BACKEND_TF_DIM_ORDERING = "https://github.com/titu1994/Inception-v4/releases/download/v1.2/inception_v4_weights_tf_dim_ordering_tf_kernels.h5"
-TF_BACKEND_TH_DIM_ORDERING = "https://github.com/titu1994/Inception-v4/releases/download/v1.2/inception_v4_weights_th_dim_ordering_tf_kernels.h5"
-
+# The input shape is tied to the network
+if K.image_dim_ordering() == 'th':
+    input_shape = (1, 299, 299)
+else:
+    input_shape = (299, 299, 1)
 
 def conv_block(x, nb_filter, nb_row, nb_col, border_mode='same', subsample=(1, 1), bias=False):
     if K.image_dim_ordering() == "th":
@@ -173,7 +173,7 @@ def reduction_B(input):
     return m
 
 
-def create_inception_v4(shape, nb_classes=1001, load_weights=True):
+def create_inception_v4(nb_classes=1001, load_weights=True):
     '''
     Creates a inception v4 network
 
@@ -181,9 +181,9 @@ def create_inception_v4(shape, nb_classes=1001, load_weights=True):
     :return: Keras Model with 1 input and 1 output
     '''
 
-    init = Input(shape)
+    # Input Shape is 299 x 299 x 1 (tf) or 1 x 299 x 299 (th)
+    init = Input(input_shape)
 
-    # Input Shape is 299 x 299 x 3 (tf) or 3 x 299 x 299 (th)
     x = inception_stem(init)
 
     # 4 x Inception A
@@ -215,26 +215,6 @@ def create_inception_v4(shape, nb_classes=1001, load_weights=True):
     out = Dense(output_dim=nb_classes, activation='softmax')(x)
 
     model = Model(init, out, name='Inception-v4')
-
-    if load_weights:
-        if K.backend() == "theano":
-            if K.image_dim_ordering() == "th":
-                weights = get_file('inception_v4_weights_th_dim_ordering_th_kernels.h5', TH_BACKEND_TH_DIM_ORDERING,
-                                   cache_subdir='models')
-            else:
-                weights = get_file('inception_v4_weights_tf_dim_ordering_th_kernels.h5', TH_BACKEND_TF_DIM_ORDERING,
-                                   cache_subdir='models')
-        else:
-            if K.image_dim_ordering() == "th":
-                weights = get_file('inception_v4_weights_th_dim_ordering_tf_kernels.h5', TF_BACKEND_TH_DIM_ORDERING,
-                                   cache_subdir='models')
-            else:
-                weights = get_file('inception_v4_weights_tf_dim_ordering_tf_kernels.h5', TH_BACKEND_TF_DIM_ORDERING,
-                                   cache_subdir='models')
-
-        model.load_weights(weights)
-        print("Model weights loaded.")
-
     return model
 
 
