@@ -13,7 +13,7 @@ $ ./experiment
 Data is downloaded, extracted and preprocessed automatically.
 
 ## Google Cloud
-Provision a Google Cloud CPU or GPU instance with the `google-cloud.sh` using either of:
+Provision a Google Cloud CPU or GPU instance with `google-cloud.sh` using either of the following commands:
 
 ```
 $ ./google-cloud.sh --create-cpu-instance
