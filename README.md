@@ -7,7 +7,7 @@ This repository contains code for training the networks to segment white matter 
 To start the experiment, clone the repository and run
 
 ```
-$ ./experiment
+$ ./experiment.sh
 ```
 
 Data is downloaded, extracted and preprocessed automatically.
