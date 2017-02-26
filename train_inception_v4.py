@@ -4,7 +4,7 @@ import sys
 import argparse
 
 # Data
-from data_2d import generator_2d, glob, sitk, Timer
+from data import generator_2d, glob, sitk, Timer
 from sklearn.model_selection import train_test_split
 
 # Keras

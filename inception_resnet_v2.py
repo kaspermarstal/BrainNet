@@ -189,7 +189,7 @@ def reduction_resnet_v2_B(input):
     m = Activation('relu')(m)
     return m
 
-def create_inception_resnet_v2(nb_classes=1001, scale=True):
+def create_inception_resnet_v2(shape, nb_classes=1001, scale=True):
     '''
     Creates a inception resnet v2 network
 
@@ -198,10 +198,7 @@ def create_inception_resnet_v2(nb_classes=1001, scale=True):
     :return: Keras Model with 1 input (299x299x3) input shape and 2 outputs (final_output, auxiliary_output)
     '''
 
-    if K.image_dim_ordering() == 'th':
-        init = Input((3, 299, 299))
-    else:
-        init = Input((299, 299, 3))
+    init = Input(shape)
 
     # Input Shape is 299 x 299 x 3 (tf) or 3 x 299 x 299 (th)
     x = inception_resnet_stem(init)
