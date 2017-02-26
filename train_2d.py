@@ -18,8 +18,9 @@ from inception_v4 import create_inception_v4
 # TensorFlow
 from tensorflow.python.platform import app
 
-def main(_):
+def main(argv):
 
+  # TODO: Make into args
   SAMPLES_PER_EPOCH = 1000
   INPUT_SHAPE = (299, 299)
   PATCH_SIZE = 32
@@ -33,7 +34,7 @@ def main(_):
       assert(len(image_filenames) == len(label_filenames))
       print('Found %i samples.' % len(image_filenames))
 
-  print('Loading samples ...' % len(image_filenames)),
+  print('Loading samples ...'),
   with Timer():
       images = [sitk.ReadImage(image_filename) for image_filename in image_filenames]
       labels = [sitk.ReadImage(label_filename) for label_filename in label_filenames]
@@ -49,9 +50,11 @@ def main(_):
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
   parser.add_argument(
+      '-d',
       '--data-dir',
-      type=float,
-      help='Data directory.'
+      dest='data_dir',
+      help='Path to data directory.',
+      required=True,
   )
 
   FLAGS, unparsed = parser.parse_known_args()
