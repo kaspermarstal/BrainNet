@@ -32,9 +32,9 @@ def main(argv):
       image_filenames = glob(os.path.join(FLAGS.data_dir, 'disc*/OAS1_*_MR1/PROCESSED/MPRAGE/T88_111/OAS1_*_MR1_mpr_n4_anon_111_t88_gfc.hdr'))
       label_filenames = glob(os.path.join(FLAGS.data_dir, 'disc*/OAS1_*_MR1/FSL_SEG/OAS1_*_MR1_mpr_n4_anon_111_t88_masked_gfc_fseg.hdr'))
       assert(len(image_filenames) == len(label_filenames))
-      print('Found %i samples.' % len(image_filenames))
+      print('Found %i images.' % len(image_filenames))
 
-  print('Loading samples ...'),
+  print('Loading images ...'),
   with Timer():
       images = [sitk.ReadImage(image_filename) for image_filename in image_filenames]
       labels = [sitk.ReadImage(label_filename) for label_filename in label_filenames]
@@ -45,7 +45,9 @@ def main(argv):
 
   model = create_inception_resnet_v2((INPUT_SHAPE[0], INPUT_SHAPE[1], 1), nb_classes=NB_CLASSES, load_weights=False)
   model.compile(optimizer=RMSprop(lr=0.045, rho=0.94, epsilon=1., decay=0.9), loss='categorical_crossentropy', metrics=['acc'])
-  model.fit_generator(generator_2d(images_train, labels_train, INPUT_SHAPE, NB_CLASSES, PATCH_SIZE, BATCH_SIZE), samples_per_epoch=SAMPLES_PER_EPOCH, nb_epoch=10, callbacks=[tensor_board, early_stopping], verbose=1)
+  model.fit_generator(generator_2d(images_train, labels_train, INPUT_SHAPE, NB_CLASSES, PATCH_SIZE, BATCH_SIZE),
+                      samples_per_epoch=SAMPLES_PER_EPOCH, nb_epoch=10, callbacks=[tensor_board, early_stopping],
+                      nb_worker=2, verbose=1)
 
 if __name__ == '__main__':
   parser = argparse.ArgumentParser()
